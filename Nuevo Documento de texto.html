@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Examen Final - Corporación ABC</title>
+    <style>
+        /* --- Estilos Generales --- */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+
+        /* --- Cabecera Centrada --- */
+        .header-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .logo-principal-izq {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+
+        .title-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .title-area h1 {
+            margin: 0;
+            font-size: 26px;
+            color: #333;
+        }
+
+        .logo-debajo-titulo {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            margin: 5px 0;
+        }
+
+        .title-area p {
+            margin: 0;
+            color: #666;
+            font-size: 15px;
+        }
+
+        /* Enlaces de Navegación del Header */
+        .nav-links {
+            margin-top: 5px;
+        }
+
+        .nav-link {
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: bold;
+            margin: 0 10px;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .nav-link:hover, .nav-link.active-tab {
+            color: #333;
+            text-decoration: underline;
+        }
+
+        /* --- Control de Secciones (Pestañas) --- */
+        .tab-content {
+            display: none; /* Ocultas por defecto */
+        }
+
+        .tab-content.active {
+            display: flex; /* Se muestra la activa */
+        }
+
+        /* --- SECCIÓN 1: INICIO (Layout ya avanzado) --- */
+        .main-content {
+            max-width: 950px;
+            margin: 0 auto;
+            gap: 30px;
+            align-items: flex-start;
+            width: 100%;
+        }
+
+        .sidebar-menu {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 200px;
+            flex-shrink: 0;
+        }
+
+        .sidebar-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            text-decoration: none;
+            background-color: #ffffff;
+            color: #333;
+            font-weight: bold;
+            font-size: 15px;
+            height: 80px;
+            border: 2px solid #333;
+            border-radius: 6px;
+            padding: 10px;
+            box-sizing: border-box;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .sidebar-btn:hover {
+            background-color: #333;
+            color: #ffffff;
+        }
+
+        .central-menu {
+            position: relative;
+            flex-grow: 1;
+            max-width: 700px;
+            height: 450px;
+            background-color: #ffffff;
+            border: 2px solid #333;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+        }
+
+        .menu-lines {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 5;
+            pointer-events: none;
+        }
+
+        .menu-item {
+            position: absolute;
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+            font-size: 18px;
+            display: flex;
+            background-color: #ffffff;
+            box-sizing: border-box;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            z-index: 2;
+        }
+
+        .menu-item:hover {
+            background-color: #f0f4f8;
+            color: #0056b3;
+        }
+
+        .btn-top { top: 0; left: 0; width: 100%; height: 50%; clip-path: polygon(0 0, 100% 0, 100% 40%, 57% 100%, 43% 100%, 0 40%); justify-content: center; align-items: flex-start; padding-top: 30px; }
+        .btn-right { top: 0; right: 0; width: 50%; height: 100%; clip-path: polygon(100% 0, 100% 100%, 40% 100%, 0% 57%, 0% 43%, 40% 0); justify-content: flex-end; align-items: center; padding-right: 45px; }
+        .btn-bottom { bottom: 0; left: 0; width: 100%; height: 50%; clip-path: polygon(43% 0, 57% 0, 100% 60%, 100% 100%, 0 100%, 0 60%); justify-content: center; align-items: flex-end; padding-bottom: 30px; }
+        .btn-left { top: 0; left: 0; width: 50%; height: 100%; clip-path: polygon(0 0, 60% 0, 100% 43%, 100% 57%, 60% 100%, 0 100%); justify-content: flex-start; align-items: center; padding-left: 45px; }
+
+        .center-logo-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 10;
+            background-color: #ffffff;
+            padding: 10px;
+            border: 2px solid #333;
+            border-radius: 120px / 90px; 
+            text-align: center;
+            width: 130px;
+            height: 95px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+        }
+
+        .center-logo { width: 50px; height: 45px; object-fit: contain; }
+        .abc-text { margin: 2px 0 0 0; font-weight: bold; font-size: 15px; color: #000; letter-spacing: 1px; }
+
+        /* --- SECCIÓN 2: QUIÉNES SOMOS --- */
+        .about-content {
+            max-width: 750px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 12px;
+            border: 2px solid #333;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .about-section h2 { color: #333; margin-bottom: 10px; }
+        .about-section p { color: #555; line-height: 1.6; font-size: 16px; margin: 0; }
+
+        /* --- SECCIÓN 3: ACTIVIDADES --- */
+        .activities-content {
+            max-width: 800px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 25px;
+            border-radius: 12px;
+            border: 2px solid #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .activities-content h2 { text-align: center; margin-top: 0; color: #333; }
+
+        .styled-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            font-size: 15px;
+        }
+
+        .styled-table th, .styled-table td {
+            border: 1px solid #333;
+            padding: 12px;
+            text-align: left;
+        }
+
+        .styled-table th { background-color: #f2f2f2; font-weight: bold; }
+        .styled-table tr:nth-child(even) { background-color: #fafafa; }
+
+        /* --- SECCIÓN 4: CONTÁCTENOS --- */
+        .contact-content {
+            max-width: 550px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 35px;
+            border-radius: 12px;
+            border: 2px solid #333;
+            text-align: center;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+            flex-direction: column;
+            align-items: center;
+            width: 100%;
+        }
+
+        /* Animación del Logo que se agranda y achica */
+        .animated-logo {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 25px;
+            animation: pulse 2s infinite ease-in-out;
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.15); }
+            100% { transform: scale(1); }
+        }
+
+        .contact-info-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            width: 100%;
+            font-size: 18px;
+        }
+
+        .contact-item-row {
+            padding: 10px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            color: #333;
+        }
+        
+        .contact-item-row strong { color: #0056b3; }
+
+        /* --- Ventanas Emergentes (Modales Globales) --- */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.5); display: flex; justify-content: center;
+            align-items: center; z-index: 100; visibility: hidden; opacity: 0;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+        .modal-overlay.active { visibility: visible; opacity: 1; }
+        .modal-box { background-color: #ffffff; padding: 25px; border-radius: 10px; width: 480px; box-shadow: 0 5px 15px rgba(0,0,0,0.3); border: 2px solid #333; position: relative; }
+        .modal-box h2 { margin-top: 0; color: #333; border-bottom: 2px solid #f4f4f4; padding-bottom: 10px; }
+        .product-item { display: flex; align-items: center; justify-content: space-between; margin: 15px 0; padding-bottom: 10px; border-bottom: 1px solid #eee; }
+        .tooltip-container { position: relative; cursor: help; font-weight: bold; color: #444; border-bottom: 1px dashed #aaa; }
+        .tooltip-text { visibility: hidden; width: 220px; background-color: #333; color: #fff; text-align: center; border-radius: 5px; padding: 8px; position: absolute; z-index: 110; bottom: 125%; left: 50%; transform: translateX(-50%); opacity: 0; transition: opacity 0.2s; font-size: 12px; font-weight: normal; }
+        .tooltip-container:hover .tooltip-text { visibility: visible; opacity: 1; }
+        .product-actions { display: flex; align-items: center; gap: 10px; }
+        .quantity-input { width: 50px; padding: 5px; text-align: center; border: 1px solid #ccc; border-radius: 4px; }
+        .btn-add-cart { background-color: #28a745; color: white; border: none; padding: 6px 12px; font-weight: bold; border-radius: 4px; cursor: pointer; }
+        .btn-close { position: absolute; top: 10px; right: 15px; background: none; border: none; font-size: 22px; cursor: pointer; color: #aaa; }
+        .stats-table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        .stats-table th, .stats-table td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        .stats-table th { background-color: #f2f2f2; }
+    </style>
+</head>
+<body>
+
+<header>
+  <div class="header-container">
+    <img src="imagen.jpg" alt="Logo Principal" class="logo-principal-izq">
+    <div class="title-area">
+      <h1>Corporación ABC SAC</h1>
+      <img src="imagen.jpg" alt="Logo Detrás del Título" class="logo-debajo-titulo">
+      <p>Av. Perú 123 - Piura</p>
+      
+      <div class="nav-links">
+        <span class="nav-link active-tab" onclick="switchTab('inicio', this)">Inicio</span> | 
+        <span class="nav-link" onclick="switchTab('quienes-somos', this)">Quiénes somos</span> | 
+        <span class="nav-link" onclick="switchTab('actividades', this)">Actividades</span> | 
+        <span class="nav-link" onclick="switchTab('contactanos', this)">Contáctenos</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<div id="tab-inicio" class="main-content tab-content active">
+  <aside class="sidebar-menu">
+    <div class="sidebar-btn" onclick="openSidebarModal('Lo más vendido')">Lo más vendido</div>
+    <div class="sidebar-btn" onclick="openSidebarModal('Ofertas semanales')">Ofertas semanales</div>
+    <div class="sidebar-btn" onclick="openSidebarModal('Liquidación')">Liquidación</div>
+    <div class="sidebar-btn" onclick="openSidebarModal('Entidades públicas')">Entidades públicas</div>
+  </aside>
+
+  <main class="central-menu">
+    <svg class="menu-lines">
+        <line x1="0" y1="0" x2="100%" y2="100%" style="stroke:#333;stroke-width:2" />
+        <line x1="100%" y1="0" x2="0" y2="100%" style="stroke:#333;stroke-width:2" />
+    </svg>
+    <a href="#" class="menu-item btn-top" onclick="openModal('Educación')">Educación</a>
+    <a href="#" class="menu-item btn-right" onclick="openModal('Servicios')">Servicios</a>
+    <a href="#" class="menu-item btn-bottom" onclick="openModal('Alimentos')">Alimentos</a>
+    <a href="#" class="menu-item btn-left" onclick="openModal('Tecnología')">Tecnología</a>
+    <div class="center-logo-container">
+      <img src="imagen.jpg" alt="Logo Central" class="center-logo">
+      <p class="abc-text">ABC</p>
+    </div>
+  </main>
+</div>
+
+<div id="tab-quienes-somos" class="about-content tab-content">
+  <div class="about-section">
+    <h2>Nuestra Fundación</h2>
+    <p>Corporación ABC SAC se fundó en la ciudad de Piura en el año 2018. Lo que inició como un pequeño emprendimiento familiar enfocado en soluciones tecnológicas locales, creció rápidamente gracias a la confianza de nuestros clientes. Con los años, expandimos nuestras fronteras logrando consolidar cuatro unidades de negocio estratégicas para atender integralmente los sectores clave de la región norte del país.</p>
+  </div>
+  <div class="about-section">
+    <h2>Misión</h2>
+    <p>Proveer productos y servicios de alta calidad en los sectores de tecnología, educación, alimentación y consultoría industrial, impulsando el desarrollo sostenible de la comunidad piurana mediante soluciones innovadoras, accesibles y eficientes.</p>
+  </div>
+  <div class="about-section">
+    <h2>Visión</h2>
+    <p>Ser reconocidos para el año 2030 como el grupo corporativo líder y más diversificado del norte del Perú, destacando por nuestra excelencia operativa, alto compromiso con el bienestar social y la transformación digital de la región.</p>
+  </div>
+</div>
+
+<div id="tab-actividades" class="activities-content tab-content">
+  <h2>Actividades y Responsabilidad Social</h2>
+  <table class="styled-table">
+    <thead>
+      <tr>
+        <th>Programa / Actividad</th>
+        <th>Descripción de la Obra realizada</th>
+        <th>Frecuencia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><strong>Campañas de Obras de Caridad</strong></td>
+        <td>Donación de canastas de alimentos básicos y útiles escolares a los sectores vulnerables del bajo Piura durante temporadas festivas.</td>
+        <td>Anual (Diciembre)</td>
+      </tr>
+      <tr>
+        <td><strong>Talleres de Alfabetización Digital</strong></td>
+        <td>Capacitaciones gratuitas en herramientas de computación básicas para docentes de escuelas rurales de la provincia.</td>
+        <td>Semestral</td>
+      </tr>
+      <tr>
+        <td><strong>Soporte Solidario a Entidades</strong></td>
+        <td>Mantenimiento preventivo gratuito de equipos informáticos en postas médicas locales y comedores populares del sector.</td>
+        <td>Trimestral</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div id="tab-contactanos" class="contact-content tab-content">
+  <img src="imagen.jpg" alt="Logo Animado" class="animated-logo">
+  
+  <div class="contact-info-box">
+    <div class="contact-item-row">
+      <strong>📞 Teléfono:</strong> +51 974 852 136 (Atención al cliente de Lunes a Sábado)
+    </div>
+    <div class="contact-item-row">
+      <strong>✉️ Correo Electrónico:</strong> contacto@corporacionabc.com.pe
+    </div>
+    <div class="contact-item-row">
+      <strong>🌐 Facebook Oficial:</strong> facebook.com/CorporacionABCSAC.Oficial
+    </div>
+  </div>
+</div>
+
+<div class="modal-overlay" id="modalOverlay">
+  <div class="modal-box">
+    <button class="btn-close" onclick="closeModal()">&times;</button>
+    <h2 id="modalTitle">Categoría</h2>
+    <div id="modalProductsContainer"></div>
+  </div>
+</div>
+
+<script>
+    // Sistema de navegación entre pestañas
+    function switchTab(tabName, element) {
+        // Ocultar todas las pestañas
+        const contents = document.querySelectorAll('.tab-content');
+        contents.forEach(content => content.classList.remove('active'));
+        
+        // Quitar la clase activa de todos los enlaces
+        const links = document.querySelectorAll('.nav-link');
+        links.forEach(link => link.classList.remove('active-tab'));
+        
+        // Mostrar la pestaña seleccionada y activar su link
+        document.getElementById('tab-' + tabName).classList.add('active');
+        element.classList.add('active-tab');
+    }
+
+    // Datos del Menú Central e Inventarios
+    const categoryProducts = {
+        'Tecnología': [
+            { name: 'Laptop HP 15"', desc: 'Ideal para tareas académicas y desarrollo de sistemas de ingeniería.' },
+            { name: 'Smartphone Samsung', desc: 'Dispositivo móvil de última generación ideal para comunicación y apps.' },
+            { name: 'Audífonos Bluetooth', desc: 'Con cancelación de ruido activa para concentrarte en tus sesiones de estudio.' }
+        ],
+        'Educación': [
+            { name: 'Libro de Álgebra', desc: 'Contiene problemas resueltos paso a paso desde nivel básico hasta avanzado.' },
+            { name: 'Cuaderno Engargolado', desc: 'Hojas cuadriculadas de alta calidad para apuntes limpios y ordenados.' },
+            { name: 'Estuche de Plumones', desc: 'Variedad de colores perfectos para pizarras acrílicas y esquemas visuales.' }
+        ],
+        'Servicios': [
+            { name: 'Soporte Técnico PC', desc: 'Optimización de sistemas, formateo e instalación de software de ingeniería.' },
+            { name: 'Consultoría TI', desc: 'Asesoramiento especializado en bases de datos y arquitectura de software.' },
+            { name: 'Mantenimiento de Redes', desc: 'Configuración y cableado estructurado para hogares y empresas locales.' }
+        ],
+        'Alimentos': [
+            { name: 'Bebida Algarrobina', desc: 'Tradicional energizante norteño preparado con la mejor materia prima de Piura.' },
+            { name: 'Snack de Plátanos', desc: 'Chifles crujientes ideales para tus pausas o meriendas rápidas del día.' },
+            { name: 'Pack de Agua Mineral', desc: 'Paquete de hidratación purificada para mantener el rendimiento durante exámenes.' }
+        ]
+    };
+
+    const sidebarData = {
+        'Lo más vendido': [{ item: 'Bebida Algarrobina', qty: 245 }, { item: 'Laptop HP 15"', qty: 112 }, { item: 'Libro de Álgebra', qty: 98 }],
+        'Ofertas semanales': [{ item: 'Audífonos Bluetooth (-20%)', qty: 150 }, { item: 'Estuche de Plumones (-15%)', qty: 85 }, { item: 'Snack de Plátanos (2x1)', qty: 320 }],
+        'Liquidación': [{ item: 'Cables de Red Antiguos', qty: 45 }, { item: 'Mouses Alámbricos USB', qty: 60 }, { item: 'Cuadernos del año pasado', qty: 110 }],
+        'Entidades públicas': [{ item: 'Licencias de Software Educativo', qty: 15 }, { item: 'Mantenimiento de Servidores GAD', qty: 4 }, { item: 'Lotes de Útiles de Oficina', qty: 22 }]
+    };
+
+    const overlay = document.getElementById('modalOverlay');
+    const modalTitle = document.getElementById('modalTitle');
+    const container = document.getElementById('modalProductsContainer');
+
+    function openModal(category) {
+        modalTitle.textContent = category;
+        container.innerHTML = '';
+        categoryProducts[category].forEach(prod => {
+            const productRow = document.createElement('div');
+            productRow.className = 'product-item';
+            productRow.innerHTML = `
+                <div class="tooltip-container">
+                    ${prod.name}
+                    <span class="tooltip-text">${prod.desc}</span>
+                </div>
+                <div class="product-actions">
+                    <input type="number" class="quantity-input" value="1" min="1" max="99">
+                    <button class="btn-add-cart" onclick="addToCart('${prod.name}')">Agregar al carrito</button>
+                </div>
+            `;
+            container.appendChild(productRow);
+        });
+        overlay.classList.add('active');
+    }
+
+    function openSidebarModal(title) {
+        modalTitle.textContent = title;
+        container.innerHTML = '';
+        const table = document.createElement('table');
+        table.className = 'stats-table';
+        table.innerHTML = `
+            <thead><tr><th>Elemento / Concepto</th><th>Cantidad comprada (Semana)</th></tr></thead>
+            <tbody>
+                ${sidebarData[title].map(row => `<tr><td>${row.item}</td><td><strong>${row.qty} u.</strong></td></tr>`).join('')}
+            </tbody>
+        `;
+        container.appendChild(table);
+        overlay.classList.add('active');
+    }
+
+    function closeModal() { overlay.classList.remove('active'); }
+    function addToCart(productName) { alert(`¡Agregado al carrito correctamente: ${productName}!`); }
+    window.onclick = function(event) { if (event.target === overlay) { closeModal(); } }
+</script>
+
+</body>
+</html>
